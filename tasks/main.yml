@@ -5,6 +5,7 @@
   group:
     name: "{{ jira_user }}"
     gid: "{{ jira_gid | default(None) or omit }}"
+  when: jira_pass is string and jira_hash_salt is string
   notify: restart jira
   tags: hswong3i.jira
 
@@ -16,6 +17,7 @@
     group: "{{ jira_user }}"
     uid: "{{ jira_uid | default(None) or omit }}"
     shell: "/bin/bash"
+  when: jira_pass is string and jira_hash_salt is string
   notify: restart jira
   tags: hswong3i.jira
 
