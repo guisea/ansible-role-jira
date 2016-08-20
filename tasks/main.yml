@@ -35,9 +35,11 @@
 
 - name: download package
   get_url:
-    url: "{{ jira_url }}"
-    dest: "/tmp/{{ jira_archive }}"
-    checksum: "{{ jira_checksum }}"
+    url: "{{ item.url }}"
+    dest: "{{ item.dest }}"
+    checksum: "{{ item.checksum }}"
+  with_items:
+    - { url: "{{ jira_url }}", dest: "/tmp/{{ jira_archive }}", checksum: "{{ jira_checksum }}" }
   tags: hswong3i.jira
 
 - name: unarchive package
@@ -65,7 +67,9 @@
 
 - name: enable service
   service:
-    name: "jira"
-    enabled: "yes"
+    name: "{{ item.name }}"
+    enabled: "{{ item.enabled }}"
+  with_items:
+    - { name: "jira", enabled: "yes" }
   notify: restart jira
   tags: hswong3i.jira
